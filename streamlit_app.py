@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 import uuid
 from backend.langgraph_.graph import make_graph
@@ -14,7 +15,7 @@ def run_generate_only(selected_table: str):
 
 
 def main():
-    st.header("DAQUV LLM")
+    st.header("DAQUV LLM 퓨샷 생성기")
     st.subheader("테이블 선택 후 유사 질문 생성")
 
     c1, c2 = st.columns(2)
@@ -91,18 +92,41 @@ def run_followup_graph(selected_table: str):
         st.warning("선택된 질문이 없습니다.")
         return
 
-    st.info("후속 작업 실행 중...")
+    st.info("퓨샷 생성 진행 중...")
 
     for idx, question in enumerate(final_qs, start=1):
-        st.markdown(f"### 질문 {idx}: {question}")
+        # 번호가 앞에 붙은 경우 제거 (예: '1. 질문내용' → '질문내용')
+        clean_question = re.sub(r'^\d+\.\s*', '', question)
+
+        st.markdown(f"## 질문 {idx}: {clean_question}")
         graph = make_graph()
         state: GraphState = {
             "selected_table": selected_table,
-            "user_question": question,
+            "user_question": clean_question,
             "user_question_eval": "",
         }
         result = graph.invoke(state)
-        st.json(result)
+
+        # 🧭 Commander
+        st.markdown("### 🧭 Commander")
+        st.json({
+            "question": clean_question,
+            "answer": selected_table
+        })
+
+        # 🧮 NL2SQL
+        st.markdown("### 🧮 NL2SQL")
+        st.json({
+            "question": clean_question,
+            "answer": result.get("nl2sql_answer", "")
+        })
+
+        # 💬 Respondent
+        st.markdown("### 💬 Respondent")
+        st.json({
+            "question": clean_question,
+            "answer": result.get("final_answer", "")
+        })
 
 
 if __name__ == "__main__":
