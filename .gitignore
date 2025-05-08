@@ -1,0 +1,10 @@
+.env
+venv
+.DS_Store
+__pycache__
+.streamlit
+xl
+*.out
+*.idea
+node_modules/
+/.idea

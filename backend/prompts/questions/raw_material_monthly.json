@@ -1,0 +1,154 @@
+[
+  {
+    "question": "지난 달 총 자재 중량과 금액을 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "지난 달 평가클래스별 자재 중량과 금액을 원료 금액이 큰 순으로 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "지난 달 자재 유형별 자재 중량과 금액을 원료 중량이 큰 순으로 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "최근 3개월의 총 자재 중량과 금액을 월별로 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "최근 3개월 평가클래스별 자재 중량과 금액을 월별로 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 9월 기준으로 SAP 대분류별 자재 중량을 중량이 큰 순으로 나열하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자재에 대해 SAP 대분류 별로 구분하여 3개월치에 대한 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 9월 기준으로 구입스크랩, 자가철스크랩, 합금철, 구입소재로 분류하여 중량이 큰 순으로 중량을 표시하세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자재에 대해 구입스크랩, 자가철스크랩, 합금철, 구입소재로 구분하여 3개월치에 대한 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "구입 스크랩에 대해 STS스크랩, 일반스크랩, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자가철 스크랩에 대해 STS, 탄합강, 공구강, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "합금철에 대해 일반합금철, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "구입소재에 대해 3개월의 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "스크랩 자재에 대한 월별 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "합금철 중 특수합금에 대한 24년 분기별 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자재 중 우주항공용 자재에 대한 24년 5월 중량, 금액을 알려주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "스크랩 중에서 구입 스크랩과 자가철 스크랩을 구분하여 전전월과 전월의 중량과 금액을 조회하세요. 월을 컬럼으로 배치하고 전월 대비 당월의 증감을 계산해 표시해 주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "스크랩을 구입 스크랩과 자가철 스크랩으로 분류를 한 후 자재내역별로 24년 7월, 8월의 중량과 금액을 조회하세요. 월을 컬럼으로 표시하고 8월 기준으로 전월비를 계산해 표시하세요. 전월비 감소폭이 큰 순으로 자재내역을 나열해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "가장 최근의 스크랩의 자재량을 SAP 중분류별로 구분하여 비율로 알려주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "S316계의 월별 자재 추이를 자재내역별 표시해주세요. 중량과 금액 모두 표시가 필요하며 단위는 톤, 백만원으로 해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "400스크랩의 월별 자재 추이를 자재내역별 표시해주세요. 중량과 금액 모두 표시가 필요하며 단위는 톤, 백만원으로 해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "특수합금 합금철의 최근 3개월 월별 중량, 금액을 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 8월 전체 합금철 자재를 중분류와 소분류로 구분하여 중량, 금액을 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자재 중에서 Cathode Ni의 24년 월별 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "자재 중에서 Fe-Ni의 24년 월별 추이를 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 2분기의 자가철 스크랩 중량과 금액을 표시하고 특수합금만 따로 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7, 8, 9월 자재를 평가클래스별로 나눠 중량, 금액을 보여주세요. 전체의 평균 값도 같이 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7, 8, 9월 자재를 평가클래스별로 나눠 중량, 금액을 보여주세요. 각 월의 평균 값도 같이 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "최근 3개월의 자재 중 사내 자가발생철 자재의 중량 추이를 조회하고, 각 월별로 중량이 가장 큰 항목을 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7,8,9월의 자재 중 사내 자가발생철 자재의 중량을 자재내역 별로 조회하세요. 월을 컬럼으로 전환한 후 자재내역 별로 8월과 9월 기준으로 전월 대비 증감을 계산해 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7, 8, 9월 원부원료의 중량 추이를 조회하고, 각 월별로 중량이 가장 큰 자재 아이템을 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7, 8, 9월의 원부원료 중량을 자재 아이템 별로 조회하세요. 월을 컬럼으로 전환한 후 아이템 별로 8월, 9월 기준 전월 대비 증감을 계산해 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7, 8, 9월의 원부원료 중량을 자재 아이템 별로 조회하세요. 월을 컬럼으로 전환해 아이템 별로 8월, 9월 기준으로 전월 대비 증감을 계산하세요. 8월과 9월 각각에 대해 상승폭이 가장 큰 자재 아이템을 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 7월의 자재를 대상으로 SAP 대분류 별로 중량을 계산하고 그 중량을 다시 중분류로 나눠 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 전체 자재의 월별 추이를 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 3분기의 합금철을 자재 코드별로 구분하여 보여주세요. 중량과 금액 모두 표시가 필요하며 단위는 각각 톤과 백만원입니다.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "최근 3개월의 특수합금 합금철에 대해 자재의 중량과 금액을 표시해 주세요. 톤과 억원 단위로 표시해주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  },
+  {
+    "question": "24년 9월 전체 자재 중에서 니켈 합금철에 대해 전체 중량과 금액을 천톤, 억원 단위로 나타내고 항목별로 중량 기준 내림차순으로 보여주세요.",
+    "answer": "RAW_MATERIAL_MONTHLY"
+  }
+]

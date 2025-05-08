@@ -1,0 +1,154 @@
+[
+  {
+  "question": "지난 달 총 자재 중량과 금액을 표시하세요.",
+  "answer": "SELECT SUM(WGT) AS total_weight, SUM(AMT) AS total_amount  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))"
+  },
+  {
+  "question": "지난 달 평가클래스별 자재 중량과 금액을 원료 금액이 큰 순으로 표시하세요.",
+  "answer": "SELECT CLASS_NM AS eval_class_name, SUM(WGT) AS total_weight, SUM(AMT) AS total_amount  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) GROUP BY 1  ORDER BY total_amount DESC"
+  },
+  {
+  "question": "지난 달 자재 유형별 자재 중량과 금액을 원료 중량이 큰 순으로 표시하세요.",
+  "answer": "SELECT MATL_TYPE_NM AS material_type_name, SUM(WGT) AS total_weight, SUM(AMT) AS total_amount  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) GROUP BY 1  ORDER BY total_weight DESC"
+  },
+  {
+  "question": "최근 3개월의 총 자재 중량과 금액을 월별로 표시하세요.",
+  "answer": "SELECT FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month, SUM(WGT) AS total_weight, SUM(AMT) AS total_amount  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH)) GROUP BY 1  ORDER BY 1"
+  },
+  {
+  "question": "최근 3개월 평가클래스별 자재 중량과 금액을 월별로 표시하세요.",
+  "answer": "SELECT FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month, CLASS_NM AS eval_class_name, SUM(WGT) AS total_weight, SUM(AMT) AS total_amount  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH)) GROUP BY 1, 2  ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 9월 기준으로 SAP 대분류별 자재 중량을 중량이 큰 순으로 나열하세요.",
+  "answer": "SELECT CAT_L1 AS `sap_category_l1`, SUM(WGT) AS `total_weight`  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09' GROUP BY 1  ORDER BY `total_weight` DESC"
+  },
+  {
+  "question": "자재에 대해 SAP 대분류 별로 구분하여 3개월치에 대한 추이를 보여주세요.",
+  "answer": "SELECT FORMAT_DATE('%Y-%m', BASE_YMD) AS `year_month`, CAT_L1 AS `sap_category_l1`, SUM(WGT) AS `total_weight`, SUM(AMT) AS `total_amount`  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH)) GROUP BY 1, 2  ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 9월 기준으로 구입스크랩, 자가철스크랩, 합금철, 구입소재로 분류하여 중량이 큰 순으로 중량을 표시하세요.",
+  "answer": "SELECT (CASE WHEN CAT_L1 = '스크랩' AND CONTAINS_SUBSTR(CAT_L2, '구입') THEN '구입스크랩' WHEN CAT_L1 = '스크랩' AND NOT CONTAINS_SUBSTR(CAT_L2, '구입') THEN '자가철스크랩' WHEN CAT_L1 = '합금철' THEN '합금철' WHEN MATL_TYPE_NM = '[세아] 구입소재' THEN '구입소재' END) AS `main_category`, SUM(WGT) AS `total_weight`  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09' GROUP BY 1  ORDER BY `total_weight` DESC"
+  },
+  {
+  "question": "자재에 대해 구입스크랩, 자가철스크랩, 합금철, 구입소재로 구분하여 3개월치에 대한 추이를 보여주세요.",
+  "answer": "SELECT FORMAT_DATE('%Y-%m', BASE_YMD) AS `year_month`, (CASE WHEN CAT_L1 = '스크랩' AND CONTAINS_SUBSTR(CAT_L2, '구입') THEN '구입스크랩' WHEN CAT_L1 = '스크랩' AND NOT CONTAINS_SUBSTR(CAT_L2, '구입') THEN '자가철스크랩' WHEN CAT_L1 = '합금철' THEN '합금철' WHEN MATL_TYPE_NM = '[세아] 구입소재' THEN '구입소재' END) AS `main_category`, SUM(WGT) AS `total_weight`, SUM(AMT) AS `total_amount`  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH)) GROUP BY 1, 2  ORDER BY 1, 2"
+  },
+  {
+  "question": "구입 스크랩에 대해 STS스크랩, 일반스크랩, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+  "answer": "SELECT FORMAT_DATE('%Y-%m', BASE_YMD) AS `year_month`, (CASE WHEN CAT_L3 IN ('S304계','S316계','S400계') THEN 'STS스크랩' WHEN CAT_L2 IN ('구입탄합강스크랩','구입공구금형강스크랩') THEN '일반스크랩' WHEN CAT_L2 = '구입특수합금강스크랩' THEN '특수합금강' END) AS `sub_category`, SUM(WGT) AS `total_weight`, SUM(AMT) AS `total_amount`  FROM `css_daquv.RAW_MATERIAL_MONTHLY`  WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH)) AND CAT_L1 = '스크랩' AND CONTAINS_SUBSTR(CAT_L2, '구입') GROUP BY 1, 2  ORDER BY 1, 2"
+  },
+  {
+  "question": "자가철 스크랩에 대해 STS, 탄합강, 공구강, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  (CASE  WHEN CAT_L2 = '사내STS강스크랩' THEN 'STS'  WHEN CAT_L2 = '사내탄합강스크랩' THEN '탄합강'  WHEN CAT_L2 = '사내공구금형강스크랩' THEN '공구강'  WHEN CAT_L2 = '사내특수합금강스크랩' THEN '특수합금강'  END) AS category,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND CAT_L1 = '스크랩' AND NOT CONTAINS_SUBSTR(CAT_L2, '구입')GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "합금철에 대해 일반합금철, 특수합금강으로 구분하여 3개월의 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  (CASE  WHEN CAT_L2 IN ('우주항공용','특수합금철') THEN '특수합금강'  ELSE '일반합금철'  END) AS category,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND CAT_L1 = '합금철'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "구입소재에 대해 3개월의 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND MATL_TYPE_NM = '[세아] 구입소재'GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "스크랩 자재에 대한 월별 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE CAT_L1 = '스크랩'GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "합금철 중 특수합금에 대한 24년 분기별 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y', BASE_YMD) AS 년,  (CASE  WHEN CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 3 THEN 'Q1'  WHEN CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 6 THEN 'Q2'  WHEN CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 9 THEN 'Q3'  WHEN CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 12 THEN 'Q4'  END) AS 분기,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) IN (3, 6, 9, 12)  AND CAT_L1 = '합금철'  AND (CONTAINS_SUBSTR(CAT_L2, '특수합금') OR CONTAINS_SUBSTR(CAT_L2, '우주항공'))GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "자재 중 우주항공용 자재에 대한 24년 5월 중량, 금액을 알려주세요.",
+  "answer": "SELECT  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-05'  AND CAT_L2 = '우주항공용'"
+  },
+  {
+  "question": "스크랩 중에서 구입 스크랩과 자가철 스크랩을 구분하여 전전월과 전월의 중량과 금액을 조회하세요. 월을 컬럼으로 배치하고 전월 대비 당월의 증감을 계산해 표시해 주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  (CASE  WHEN CONTAINS_SUBSTR(CAT_L2, '구입') THEN '구입스크랩'  WHEN NOT CONTAINS_SUBSTR(CAT_L2, '구입') THEN '자가철스크랩'  END) AS category,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH)) THEN WGT ELSE 0  END) AS total_weight_2months_ago,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) THEN WGT ELSE 0  END) AS total_weight_prev_month,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH)) THEN AMT ELSE 0  END) AS total_amount_2months_ago,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) THEN AMT ELSE 0  END) AS total_amount_prev_month FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE CAT_L1 = '스크랩'  GROUP BY 1)SELECT  *,  (`합계_중량_전월` - `합계_중량_전전월`) AS weight_diff_mom,  (`합계_금액_전월` - `합계_금액_전전월`) AS amount_diff_mom FROM TEMP_INVEN"
+  },
+  {
+  "question": "스크랩을 구입 스크랩과 자가철 스크랩으로 분류를 한 후 자재내역별로 24년 7월, 8월의 중량과 금액을 조회하세요. 월을 컬럼으로 표시하고 8월 기준으로 전월비를 계산해 표시하세요. 전월비 감소폭이 큰 순으로 자재내역을 나열해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  (CASE  WHEN CONTAINS_SUBSTR(CAT_L2, '구입') THEN '구입스크랩'  WHEN NOT CONTAINS_SUBSTR(CAT_L2, '구입') THEN '자가철스크랩'  END) AS category,  MATL_NAME AS material_detail,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07' THEN WGT ELSE 0  END) AS total_weight_2407,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08' THEN WGT ELSE 0  END) AS total_weight_2408,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07' THEN AMT ELSE 0  END) AS total_amount_2407,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08' THEN AMT ELSE 0  END) AS total_amount_2408 FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) BETWEEN 7 AND 8  AND CAT_L1 = '스크랩'  GROUP BY 1, 2)SELECT  *,  (`합계_중량_2408` - `합계_중량_2407`) AS weight_diff_mom,  (`합계_금액_2408` - `합계_금액_2407`) AS amount_diff_mom FROM TEMP_INVEN ORDER BY `중량_전월비` DESC, `금액_전월비` DESC"
+  },
+  {
+  "question": "가장 최근의 스크랩의 자재량을 SAP 중분류별로 구분하여 비율로 알려주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  CAT_L2 AS sap_category_l2,  ROUND(SUM(WGT) / SUM(SUM(WGT)) OVER () * 100, 2) AS weight_ratio FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = FORMAT_DATE('%Y-%m', (SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`))  AND CAT_L1 = '스크랩'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "S316계의 월별 자재 추이를 자재내역별 표시해주세요. 중량과 금액 모두 표시가 필요하며 단위는 톤, 백만원으로 해주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  MATL_NAME AS material_detail,  ROUND(SUM(WGT) / 1000, 2) AS total_weight_ton,  ROUND(SUM(AMT) / 1000000, 2) AS total_amount_million FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE CAT_L3 = 'S316계'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "400스크랩의 월별 자재 추이를 자재내역별 표시해주세요. 중량과 금액 모두 표시가 필요하며 단위는 톤, 백만원으로 해주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  MATL_NAME AS material_detail,  ROUND(SUM(WGT) / 1000, 2) AS total_weight_ton,  ROUND(SUM(AMT) / 1000000, 2) AS total_amount_million FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE CAT_L3 = 'S400계'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "특수합금 합금철의 최근 3개월 월별 중량, 금액을 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND CAT_L1 = '합금철'  AND (CONTAINS_SUBSTR(CAT_L2, '특수합금') OR CONTAINS_SUBSTR(CAT_L2, '우주항공'))GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "24년 8월 전체 합금철 자재를 중분류와 소분류로 구분하여 중량, 금액을 표시해주세요.",
+  "answer": "SELECT  CAT_L2 AS sap_category_l2,  CAT_L3 AS sap_category_l3,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08'  AND CAT_L1 = '합금철'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "자재 중에서 Cathode Ni의 24년 월별 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CONTAINS_SUBSTR(MATL_NAME, 'Cathode')  AND CONTAINS_SUBSTR(MATL_NAME, 'Ni')GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "자재 중에서 Fe-Ni의 24년 월별 추이를 보여주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CONTAINS_SUBSTR(MATL_NAME, 'Fe-Ni')GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "24년 2분기의 자가철 스크랩 중량과 금액을 표시하고 특수합금만 따로 표시해주세요.",
+  "answer": "SELECT  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount,  SUM(CASE WHEN CONTAINS_SUBSTR(CAT_L2, '특수합금') OR CONTAINS_SUBSTR(CAT_L2, '우주항공') THEN WGT  ELSE 0  END) AS 합계_중량_특수합금,  SUM(CASE WHEN CONTAINS_SUBSTR(CAT_L2, '특수합금') OR CONTAINS_SUBSTR(CAT_L2, '우주항공') THEN AMT  ELSE 0  END) AS 합계_금액_특수합금 FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 6  AND (CAT_L1 = '스크랩' AND NOT CONTAINS_SUBSTR(CAT_L2, '구입'))"
+  },
+  {
+  "question": "24년 7, 8, 9월 자재를 평가클래스별로 나눠 중량, 금액을 보여주세요. 전체의 평균 값도 같이 표시해주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  CLASS_NM AS eval_class_detail,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount,  ROUND(AVG(SUM(WGT)) OVER (), 2) AS avg_weight,  ROUND(AVG(SUM(AMT)) OVER (), 2) AS avg_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) IN (7, 8 ,9)GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 7, 8, 9월 자재를 평가클래스별로 나눠 중량, 금액을 보여주세요. 각 월의 평균 값도 같이 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  CLASS_NM AS eval_class_detail,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) IN (7, 8 ,9)  GROUP BY 1, 2)SELECT  `년월`,  `평가클래스내역`,  `합계_중량`,  `합계_금액`,  ROUND(AVG(`합계_중량`) OVER (PARTITION BY `년월`), 2) AS avg_weight,  ROUND(AVG(`합계_금액`) OVER (PARTITION BY `년월`), 2) AS avg_amount FROM TEMP_INVEN ORDER BY 1, 2"
+  },
+  {
+  "question": "최근 3개월의 자재 중 사내 자가발생철 자재의 중량 추이를 조회하고, 각 월별로 중량이 가장 큰 항목을 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  MATL_NAME AS material_detail,  SUM(WGT) AS total_weight FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND CONTAINS_SUBSTR(MATL_NAME, '사내')  AND CONTAINS_SUBSTR(MATL_NAME, '자가발생철')  GROUP BY 1, 2)SELECT DISTINCT  `년월`,  SUM(`합계_중량`) OVER (PARTITION BY `년월`) AS total_weight,  LAST_VALUE(`자재내역`) OVER (PARTITION BY `년월`  ORDER BY `합계_중량` ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_material_detail FROM TEMP_INVEN ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 7,8,9월의 자재 중 사내 자가발생철 자재의 중량을 자재내역 별로 조회하세요. 월을 컬럼으로 전환한 후 자재내역 별로 8월과 9월 기준으로 전월 대비 증감을 계산해 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  MATL_NAME AS material_detail,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07' THEN WGT ELSE 0  END) AS total_weight_2407,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08' THEN WGT ELSE 0  END) AS total_weight_2408,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09' THEN WGT ELSE 0  END) AS total_weight_2409 FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) BETWEEN 7 AND 9  AND CONTAINS_SUBSTR(MATL_NAME, '사내')  AND CONTAINS_SUBSTR(MATL_NAME, '자가발생철')  GROUP BY 1)SELECT  *,  (`합계_중량_2408` - `합계_중량_2407`) AS weight_diff_2408,  (`합계_중량_2409` - `합계_중량_2408`) AS weight_diff_2409, FROM TEMP_INVEN ORDER BY `자재내역`"
+  },
+  {
+  "question": "24년 7, 8, 9월 원부원료의 중량 추이를 조회하고, 각 월별로 중량이 가장 큰 자재 아이템을 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  MATL_NAME AS material_detail,  SUM(WGT) AS total_weight FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) BETWEEN 7 AND 9  GROUP BY 1, 2)SELECT DISTINCT  `년월`,  SUM(`합계_중량`) OVER (PARTITION BY `년월`) AS total_weight,  LAST_VALUE(`자재내역`) OVER (PARTITION BY `년월`  ORDER BY `합계_중량` ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_material_detail FROM TEMP_INVEN ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 7, 8, 9월의 원부원료 중량을 자재 아이템 별로 조회하세요. 월을 컬럼으로 전환한 후 아이템 별로 8월, 9월 기준 전월 대비 증감을 계산해 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  MATL_NAME AS material_detail,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07' THEN WGT ELSE 0  END) AS total_weight_2407,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08' THEN WGT ELSE 0  END) AS total_weight_2408,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09' THEN WGT ELSE 0  END) AS total_weight_2409 FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) BETWEEN 7 AND 9  GROUP BY 1)SELECT  *,  (`합계_중량_2408` - `합계_중량_2407`) AS weight_diff_2408,  (`합계_중량_2409` - `합계_중량_2408`) AS weight_diff_2409, FROM TEMP_INVEN ORDER BY `자재내역`"
+  },
+  {
+  "question": "24년 7, 8, 9월의 원부원료 중량을 자재 아이템 별로 조회하세요. 월을 컬럼으로 전환해 아이템 별로 8월, 9월 기준으로 전월 대비 증감을 계산하세요. 8월과 9월 각각에 대해 상승폭이 가장 큰 자재 아이템을 표시해주세요.",
+  "answer": "WITH TEMP_INVEN AS (  SELECT  MATL_NAME AS material_detail,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07' THEN WGT ELSE 0  END) AS total_weight_2407,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-08' THEN WGT ELSE 0  END) AS total_weight_2408,  SUM(CASE  WHEN FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09' THEN WGT ELSE 0  END) AS total_weight_2409 FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) BETWEEN 7 AND 9  GROUP BY 1)SELECT  '2024-08' AS year_month,  `자재내역`,  `중량_전월비` FROM (  SELECT  *,  (`합계_중량_2408` - `합계_중량_2407`) AS weight_diff_mom,  RANK() OVER ( ORDER BY (`합계_중량_2408` - `합계_중량_2407`) DESC) AS weight_diff_rank FROM TEMP_INVEN) T WHERE `중량_전월비_순위`=1UNION ALLSELECT  '2024-09' AS year_month,  `자재내역`,  `중량_전월비` FROM (  SELECT  *,  (`합계_중량_2409` - `합계_중량_2408`) AS weight_diff_mom,  RANK() OVER ( ORDER BY (`합계_중량_2409` - `합계_중량_2408`) DESC) AS weight_diff_rank FROM TEMP_INVEN) T WHERE `중량_전월비_순위`=1"
+  },
+  {
+  "question": "24년 7월의 자재를 대상으로 SAP 대분류 별로 중량을 계산하고 그 중량을 다시 중분류로 나눠 표시해주세요.",
+  "answer": "SELECT  CAT_L1 AS SAP대분류명,  CAT_L2 AS sap_category_l2,  SUM(WGT) AS total_weight FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-07'GROUP BY 1, 2 ORDER BY 1, 2"
+  },
+  {
+  "question": "24년 전체 자재의 월별 추이를 표시해주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  SUM(WGT) AS total_weight,  SUM(AMT) AS total_amount FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "24년 3분기의 합금철을 자재 코드별로 구분하여 보여주세요. 중량과 금액 모두 표시가 필요하며 단위는 각각 톤과 백만원입니다.",
+  "answer": "SELECT  MATL_CODE AS material_code,  ROUND(SUM(WGT) / 1000, 2) AS total_weight_ton,  ROUND(SUM(AMT) / 1000000, 2) AS total_amount_million FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y', BASE_YMD) = '2024'  AND CAST(FORMAT_DATE('%m', BASE_YMD) AS INT64) = 9  AND CAT_L1 = '합금철'GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "최근 3개월의 특수합금 합금철에 대해 자재의 중량과 금액을 표시해 주세요. 톤과 억원 단위로 표시해주세요.",
+  "answer": "SELECT  FORMAT_DATE('%Y-%m', BASE_YMD) AS year_month,  ROUND(SUM(WGT) / 1000, 2) AS total_weight_ton,  ROUND(SUM(AMT) / 100000000, 2) AS total_amount_billion FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) >= FORMAT_DATE('%Y-%m', DATE_SUB((SELECT MAX(BASE_YMD)  FROM `css_daquv.RAW_MATERIAL_MONTHLY`), INTERVAL 2 MONTH))  AND CAT_L1 = '합금철'  AND (CONTAINS_SUBSTR(CAT_L2, '특수합금') OR CONTAINS_SUBSTR(CAT_L2, '우주항공'))GROUP BY 1 ORDER BY 1"
+  },
+  {
+  "question": "24년 9월 전체 자재 중에서 니켈 합금철에 대해 전체 중량과 금액을 천톤, 억원 단위로 나타내고 항목별로 중량 기준 내림차순으로 보여주세요.",
+  "answer": "SELECT  ROUND(SUM(SUM(WGT)) OVER () / 1000000, 2) AS total_weight_thousand_ton,  ROUND(SUM(SUM(AMT)) OVER () / 100000000, 2) AS total_amount_billion,  MATL_NAME AS material_detail,  ROUND(SUM(WGT) / 1000, 2) AS total_weight_ton_by_material FROM  `css_daquv.RAW_MATERIAL_MONTHLY` WHERE FORMAT_DATE('%Y-%m', BASE_YMD) = '2024-09'  AND CAT_L1 = '합금철'  AND CAT_L2 = 'NI'GROUP BY MATL_NAME ORDER BY `합계_중량_톤_자재` DESC"
+  }
+]

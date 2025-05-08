@@ -1,0 +1,73 @@
+product_wip_monthly = '''CREATE TABLE bank_product_crm (
+    id SERIAL PRIMARY KEY,                          -- 자동 증가 정수형 기본 키
+    company_type VARCHAR(50),                       -- 기업형태 (예: '대기업', '중소기업')
+    company_name VARCHAR(100) NOT NULL,             -- 기업명 (예: '화성산업㈜', '동원금속㈜')
+    ceo_name VARCHAR(50),                           -- 대표자 (예: '홍길동', '이영희')
+    business_category VARCHAR(100),                 -- 업종 (예: '제조업', '건설업', 'IT서비스')
+    headquarters_address VARCHAR(200),              -- 본사주소 (예: '서울특별시 강남구 삼성동 100-1')
+    business_number VARCHAR(10) NOT NULL UNIQUE,    -- 사업자번호 (예: '5018100050', '5038106778')
+    corporate_number VARCHAR(14),                   -- 법인번호 (예: '123456-7890123')
+    employee_count INTEGER,                         -- 종업원수 (예: 120, 5000)
+    representative_phone VARCHAR(15),               -- 대표전화번호 (예: '02-1234-5678')
+    revenue BIGINT,                                 -- 매출액 (예: 12000000000, 300000)
+    employee_name VARCHAR(50),                      -- 직원명 (예: '김철수', '박영희')
+    employee_department VARCHAR(50),                -- 부서 (예: '영업부', '개발팀')
+    employee_position VARCHAR(50),                  -- 직급 (예: '부장', '사원')
+    email VARCHAR(100) CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),  -- 이메일 유효성 검사
+    mobile_phone VARCHAR(15),                       -- 휴대폰번호 (예: '010-1234-5678')
+    main_bank VARCHAR(50),                          -- 주거래은행 (예: 'KB', 'IBK', 'HANA')
+    subscription_date DATE DEFAULT CURRENT_DATE,    -- 가입일자 (예: '2022-01-01')
+    subscription_product VARCHAR(50),               -- 가입상품 (예: 'eCashBranch', 'iBranch')
+    initial_cost INTEGER,                           -- 도입비 (예: 5000000, 200000)
+    monthly_fee INTEGER,                            -- 월 사용료 (예: 200000, 300000)
+    termination_date DATE,                          -- 해지일자 (예: '2023-07-15')
+    erp_type VARCHAR(50),                           -- ERP 종류 (상품명) (예: 'SAP', 'Oracle', 'MS-SQL')
+    erp_company VARCHAR(50),                        -- ERP 업체 (예: '더존비즈온', '웹케시', '포스코 ICT')
+    integration_type VARCHAR(50),                   -- 연계방식 (예: 'DBtoDB', 'API', 'SFTP')
+    affiliate_count INTEGER,                        -- 계열사수 (예: 5, 10)
+    webcash_department VARCHAR(50),                 -- 웹케시 담당부서 (예: '영업팀', '기술지원팀')
+    webcash_department_secondary VARCHAR(50),       -- 담당부서 2 (예: '기술팀', '개발팀')
+    contact_person VARCHAR(50),                     -- 담당자 명 (예: '이진호', '박상민')
+    contact_position VARCHAR(50),                   -- 담당자 직급 (예: '차장', '과장')
+    contact_phone VARCHAR(15),                      -- 담당자 연락처 (예: '010-8765-4321')
+    created_at TIMESTAMPTZ DEFAULT NOW(),           -- 레코드 생성 시간
+    updated_at TIMESTAMPTZ DEFAULT NOW(),           -- 레코드 최종 수정 시간
+    CONSTRAINT business_number_unique UNIQUE (business_number)
+);'''
+
+raw_material_monthly = '''CREATE TABLE bank_product_crm (
+    id SERIAL PRIMARY KEY,                          -- 자동 증가 정수형 기본 키
+    company_type VARCHAR(50),                       -- 기업형태 (예: '대기업', '중소기업')
+    company_name VARCHAR(100) NOT NULL,             -- 기업명 (예: '화성산업㈜', '동원금속㈜')
+    ceo_name VARCHAR(50),                           -- 대표자 (예: '홍길동', '이영희')
+    business_category VARCHAR(100),                 -- 업종 (예: '제조업', '건설업', 'IT서비스')
+    headquarters_address VARCHAR(200),              -- 본사주소 (예: '서울특별시 강남구 삼성동 100-1')
+    business_number VARCHAR(10) NOT NULL UNIQUE,    -- 사업자번호 (예: '5018100050', '5038106778')
+    corporate_number VARCHAR(14),                   -- 법인번호 (예: '123456-7890123')
+    employee_count INTEGER,                         -- 종업원수 (예: 120, 5000)
+    representative_phone VARCHAR(15),               -- 대표전화번호 (예: '02-1234-5678')
+    revenue BIGINT,                                 -- 매출액 (예: 12000000000, 300000)
+    employee_name VARCHAR(50),                      -- 직원명 (예: '김철수', '박영희')
+    employee_department VARCHAR(50),                -- 부서 (예: '영업부', '개발팀')
+    employee_position VARCHAR(50),                  -- 직급 (예: '부장', '사원')
+    email VARCHAR(100) CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),  -- 이메일 유효성 검사
+    mobile_phone VARCHAR(15),                       -- 휴대폰번호 (예: '010-1234-5678')
+    main_bank VARCHAR(50),                          -- 주거래은행 (예: 'KB', 'IBK', 'HANA')
+    subscription_date DATE DEFAULT CURRENT_DATE,    -- 가입일자 (예: '2022-01-01')
+    subscription_product VARCHAR(50),               -- 가입상품 (예: 'eCashBranch', 'iBranch')
+    initial_cost INTEGER,                           -- 도입비 (예: 5000000, 200000)
+    monthly_fee INTEGER,                            -- 월 사용료 (예: 200000, 300000)
+    termination_date DATE,                          -- 해지일자 (예: '2023-07-15')
+    erp_type VARCHAR(50),                           -- ERP 종류 (상품명) (예: 'SAP', 'Oracle', 'MS-SQL')
+    erp_company VARCHAR(50),                        -- ERP 업체 (예: '더존비즈온', '웹케시', '포스코 ICT')
+    integration_type VARCHAR(50),                   -- 연계방식 (예: 'DBtoDB', 'API', 'SFTP')
+    affiliate_count INTEGER,                        -- 계열사수 (예: 5, 10)
+    webcash_department VARCHAR(50),                 -- 웹케시 담당부서 (예: '영업팀', '기술지원팀')
+    webcash_department_secondary VARCHAR(50),       -- 담당부서 2 (예: '기술팀', '개발팀')
+    contact_person VARCHAR(50),                     -- 담당자 명 (예: '이진호', '박상민')
+    contact_position VARCHAR(50),                   -- 담당자 직급 (예: '차장', '과장')
+    contact_phone VARCHAR(15),                      -- 담당자 연락처 (예: '010-8765-4321')
+    created_at TIMESTAMPTZ DEFAULT NOW(),           -- 레코드 생성 시간
+    updated_at TIMESTAMPTZ DEFAULT NOW(),           -- 레코드 최종 수정 시간
+    CONSTRAINT business_number_unique UNIQUE (business_number)
+);'''
